@@ -1,23 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weather App</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-<div class="container">
-<h1>Weather App</h1>
-<button id="themeBtn">🌙 Toggle Theme</button><br><br>
-<input type="text" id="city" placeholder="Enter city">
-<button onclick="getWeather()">Search</button>
-<button onclick="getLocationWeather()">📍 My Location</button>
-<div id="loader" style="display:none;">Loading...</div>
-<div id="result"></div>
-<h3>Recent Searches</h3>
-<ul id="history"></ul>
-</div>
-<script src="script.js"></script>
+
+    <div class="container">
+        <div class="weather-card">
+
+            <h1>Weather App</h1>
+
+            <div class="search-box">
+                <input type="text" id="cityInput" placeholder="Enter city name">
+                <button id="searchBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div class="error" id="error">
+                City not found!
+            </div>
+
+            <div class="weather" id="weather">
+
+                <img src="" class="weather-icon" id="weatherIcon">
+
+                <h2 id="temperature">--°C</h2>
+
+                <h3 id="city">City</h3>
+
+                <p id="description">Weather Description</p>
+
+                <div class="details">
+
+                    <div class="detail-box">
+                        <i class="fa-solid fa-water"></i>
+                        <div>
+                            <p>Humidity</p>
+                            <span id="humidity">--%</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-box">
+                        <i class="fa-solid fa-wind"></i>
+                        <div>
+                            <p>Wind</p>
+                            <span id="wind">-- km/h</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="extra-details">
+
+                    <div>
+                        <p>Feels Like</p>
+                        <span id="feelsLike">--°C</span>
+                    </div>
+
+                    <div>
+                        <p>Pressure</p>
+                        <span id="pressure">-- hPa</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
