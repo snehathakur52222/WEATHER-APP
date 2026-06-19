@@ -1,7 +1,139 @@
 
-body{font-family:Arial;margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f4f4f4;}
-.container{background:white;padding:20px;border-radius:12px;max-width:500px;width:90%;box-shadow:0 0 10px rgba(0,0,0,.1);}
-.dark{background:#222;color:white;}
-.dark .container{background:#333;color:white;}
-input,button{padding:10px;margin:5px;}
-img{width:80px;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#00b4db,#0083b0);
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:420px;
+}
+
+.weather-card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:25px;
+    padding:35px 25px;
+    color:white;
+    text-align:center;
+    box-shadow:0 8px 32px rgba(0,0,0,0.2);
+}
+
+.weather-card h1{
+    margin-bottom:25px;
+}
+
+.search-box{
+    display:flex;
+    gap:10px;
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:15px;
+    border-radius:50px;
+    font-size:16px;
+}
+
+.search-box button{
+    width:55px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.search-box button:hover{
+    transform:scale(1.05);
+}
+
+.error{
+    margin-top:20px;
+    color:#ffb3b3;
+    display:none;
+}
+
+.weather{
+    display:none;
+}
+
+.weather-icon{
+    width:120px;
+    margin-top:20px;
+}
+
+#temperature{
+    font-size:60px;
+    margin-top:10px;
+}
+
+#city{
+    font-size:32px;
+    margin-top:10px;
+}
+
+#description{
+    text-transform:capitalize;
+    margin-top:8px;
+}
+
+.details{
+    display:flex;
+    justify-content:space-between;
+    margin-top:35px;
+    gap:15px;
+}
+
+.detail-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-align:left;
+}
+
+.detail-box i{
+    font-size:28px;
+}
+
+.extra-details{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+}
+
+.extra-details div{
+    text-align:center;
+}
+
+.extra-details span{
+    font-weight:bold;
+    font-size:18px;
+}
+
+@media(max-width:480px){
+
+    .details,
+    .extra-details{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    #temperature{
+        font-size:50px;
+    }
+}
