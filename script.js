@@ -1,55 +1,116 @@
+const API_KEY = "cd9b958e513c5c5ad83180c86a614ac9";
 
-const apiKey='YOUR_API_KEY';
+const cityInput = document.getElementById("cityInput");
+const searchBtn = document.getElementById("searchBtn");
 
-function saveHistory(city){
- let arr=JSON.parse(localStorage.getItem('cities'))||[];
- if(!arr.includes(city)) arr.unshift(city);
- localStorage.setItem('cities',JSON.stringify(arr.slice(0,5)));
- loadHistory();
+const weatherBox = document.getElementById("weather");
+const errorBox = document.getElementById("error");
+
+async function checkWeather(city){
+
+    const apiUrl =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
+
+    const response = await fetch(apiUrl);
+
+    if(response.status === 404){
+        errorBox.style.display = "block";
+        weatherBox.style.display = "none";
+        return;
+    }
+
+    const data = await response.json();
+
+    document.getElementById("city").innerText =
+    `${data.name}, ${data.sys.country}`;
+
+    document.getElementById("temperature").innerText =
+    `${Math.round(data.main.temp)}°C`;
+
+    document.getElementById("description").innerText =
+    data.weather[0].description;
+
+    document.getElementById("humidity").innerText =
+    `${data.main.humidity}%`;
+
+    document.getElementById("wind").innerText =
+    `${data.wind.speed} km/h`;
+
+    document.getElementById("feelsLike").innerText =
+    `${Math.round(data.main.feels_like)}°C`;
+
+    document.getElementById("pressure").innerText =
+    `${data.main.pressure} hPa`;
+
+    const iconCode = data.weather[0].icon;
+
+    document.getElementById("weatherIcon").src =
+    `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+
+    weatherBox.style.display = "block";
+    errorBox.style.display = "none";
+
+    changeBackground(data.weather[0].main);
 }
 
-function loadHistory(){
- const arr=JSON.parse(localStorage.getItem('cities'))||[];
- document.getElementById('history').innerHTML=arr.map(c=>`<li>${c}</li>`).join('');
+function changeBackground(condition){
+
+    const body = document.body;
+
+    switch(condition){
+
+        case "Clear":
+            body.style.background =
+            "linear-gradient(135deg,#f6d365,#fda085)";
+            break;
+
+        case "Clouds":
+            body.style.background =
+            "linear-gradient(135deg,#bdc3c7,#2c3e50)";
+            break;
+
+        case "Rain":
+        case "Drizzle":
+            body.style.background =
+            "linear-gradient(135deg,#4facfe,#00f2fe)";
+            break;
+
+        case "Thunderstorm":
+            body.style.background =
+            "linear-gradient(135deg,#232526,#414345)";
+            break;
+
+        case "Snow":
+            body.style.background =
+            "linear-gradient(135deg,#e6dada,#274046)";
+            break;
+
+        default:
+            body.style.background =
+            "linear-gradient(135deg,#00b4db,#0083b0)";
+    }
 }
-loadHistory();
 
-document.getElementById('themeBtn').onclick=()=>{
- document.body.classList.toggle('dark');
-}
+searchBtn.addEventListener("click", () => {
 
-async function getWeather(cityParam){
- const city=cityParam || document.getElementById('city').value;
- const loader=document.getElementById('loader');
- loader.style.display='block';
+    const city = cityInput.value.trim();
 
- try{
- const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
- const data=await res.json();
+    if(city !== ""){
+        checkWeather(city);
+    }
+});
 
- document.getElementById('result').innerHTML=`
- <h2>${data.name}</h2>
- <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
- <p>Temp: ${data.main.temp} °C</p>
- <p>Humidity: ${data.main.humidity}%</p>
- <p>Wind: ${data.wind.speed} m/s</p>
- <p>${data.weather[0].description}</p>`;
+cityInput.addEventListener("keypress", (e) => {
 
- saveHistory(city);
- }catch(e){
- document.getElementById('result').innerHTML='Error fetching data';
- }
- loader.style.display='none';
-}
+    if(e.key === "Enter"){
 
-function getLocationWeather(){
- navigator.geolocation.getCurrentPosition(async(pos)=>{
- const {latitude,longitude}=pos.coords;
- const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`);
- const data=await res.json();
- document.getElementById('result').innerHTML=`
- <h2>${data.name}</h2>
- <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
- <p>Temp: ${data.main.temp} °C</p>`;
- });
-}
+        const city = cityInput.value.trim();
+
+        if(city !== ""){
+            checkWeather(city);
+        }
+    }
+});
+
+/* Default City */
+checkWeather("Delhi");
